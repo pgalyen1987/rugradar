@@ -1,61 +1,65 @@
-# 🔑 Keycast
+# 🛡️ RugRadar
 
-**Hold a creator's Zora coin, unlock their content.** A Farcaster / Base mini-app.
+**Scan any Base coin for rugs — before you ape.** A Farcaster / Base mini-app.
 
-Creator coins on Zora mostly have no utility beyond speculation — the loudest
-creator complaint is that holding a coin *does nothing*. Keycast makes a coin a
-**key**: a creator gates a link / Discord / download / message behind holding a
-minimum balance; holders unlock it, everyone else gets a one-tap buy.
+~1 in 6 new Base memecoins is a scam and 91% have contract vulnerabilities, yet
+Base has no native token-vetting and buyers ape straight from the feed. RugRadar
+reads a coin's contract live and returns a **0–100 safety score + plain-English
+red flags**, right where the buy happens — plus a free, embeddable score API so
+any app can surface the same signal.
 
-## Why this shape (the honest strategy)
+## What it does
 
-Two ways to get paid, **both independent of having an audience** — which is the
-wall every other approach hit:
+Paste a Base token address → get:
+- a **0–100 score** and a risk band (safe / caution / high-risk / critical),
+- the **red flags** behind it (honeypot, buy/sell tax, owner powers, mintability,
+  unlocked liquidity, thin holder base),
+- a **shareable check** you can cast to warn others.
 
-1. **Base Builder Rewards** (primary, reliable): Keycast is an open-source Base
-   mini-app with real onchain activity. Builder Rewards pay ~2 ETH/week split
-   across the top Base builders, automatically, ranked by GitHub + contract +
-   mini-app activity. No users required — it rewards the building.
-2. **Zora trade-referral fees** (upside): the "buy to unlock" flow routes through
-   Zora; where the client supports attaching a `traderReferrer`, the operator
-   earns a cut of the 1% trade fee. Grows with usage, not billing.
+It **builds on established detection** ([GoPlus Security](https://gopluslabs.io))
+rather than reinventing contract analysis — the value is *placement* (in-feed, at
+the point of trade) and *composability* (a public API any mini app can embed).
 
-Plus **distribution is built in**: a creator shares a gate with `composeCast`, and
-it spreads through the Farcaster feed to their followers — the platform hands you
-reach instead of you manufacturing it.
+## Public API
 
-## How it works (security)
+```bash
+curl "https://rugradar-production-e532.up.railway.app/api/score?address=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+```
 
-- **Balance is read server-side** from Base via viem (`balanceOf`) — can't be faked.
-- **Wallet ownership is proven** before any balance read: the viewer signs a
-  single-use nonce (`/api/nonce` → `personal_sign` → `/api/unlock` verifies with
-  viem). So nobody can claim a whale's address to unlock content they don't hold.
-- **Secret content is never in the page or the URL** — it's stored server-side and
-  returned only after the balance check passes.
+```json
+{ "address": "0x833589…", "name": "USD Coin", "symbol": "USDC",
+  "score": 60, "band": "caution",
+  "flags": ["Owner not renounced", "Liquidity not locked/burned"],
+  "positives": ["Source verified", "No buy/sell tax"] }
+```
+
+CORS-open — drop the score into your own app or bot.
 
 ## Architecture
 
-- **Next.js 14** (App Router), TypeScript, zero-CSS-framework.
-- `src/lib` — pure, tested core: `validate`, `format` (units), `chain` (viem Base
-  reads), `auth` (nonce + signature verify), `store` (memory dev / Upstash prod),
-  `referrer` (CAIP-19).
-- `src/app/api` — `gates` (create), `gates/[id]` (public meta), `nonce`, `unlock`.
-- `src/components` — `CreateGate`, `Unlock`, `wallet` (mini-app EIP-1193 via viem).
-- `@farcaster/miniapp-sdk` for `ready` / `composeCast` / `swapToken` / wallet.
+- **Next.js 14** (App Router), TypeScript, zero CSS framework.
+- `src/lib/security.ts` — GoPlus adapter (Base, chain 8453), normalized.
+- `src/lib/score.ts` — pure, tested scoring (rules → score + flags).
+- `src/app/api/score` — the public score endpoint.
+- `src/components/ScoreCoin.tsx` — the in-feed scanner UI.
+- `@farcaster/miniapp-sdk` for `ready` / `composeCast`.
 
 ## Develop
 
 ```bash
 npm install
-cp .env.example .env.local     # fill in values (memory store works with none set)
-npm run dev                    # http://localhost:3000
-npm run typecheck              # tsc --noEmit  (clean)
-npm test                       # vitest — 13 tests incl. the ownership-proof crypto
+npm run typecheck && npm test
+npm run dev
 ```
 
-> Note on building here: `npm run build` runs Next's native toolchain, which
-> crashes (SIGBUS) in the constrained sandbox this was authored in. It builds
-> normally on Vercel or any standard machine. Correctness is enforced by
-> `typecheck` + `test`, both green.
+## Honest limitations
 
-See **DEPLOY.md** to ship it and turn on the two income rails.
+- Tuned for **new memecoins**; blue-chips (USDC) can trip "owner not renounced /
+  LP not locked" and read as *caution* — calibration for established tokens is on
+  the roadmap.
+- A **risk signal, not financial advice**, and not a guarantee a coin is safe.
+- **Non-custodial** — RugRadar never touches your wallet or funds.
+
+## License
+
+MIT.
