@@ -30,10 +30,11 @@ export default function ScoreCoin() {
     if (!res) return;
     const b = BAND[res.band];
     const tag = res.symbol ? `$${res.symbol}` : res.address.slice(0, 8);
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
     try {
       await sdk.actions.composeCast({
         text: `${tag} safety score: ${res.score}/100 — ${b.label}. Checked with RugRadar 🛡️`,
-        embeds: [`https://rugradar-production.up.railway.app/?a=${res.address}`],
+        embeds: [`${origin}/?a=${res.address}`],
       });
     } catch (e) { setErr((e as Error).message); }
   }
