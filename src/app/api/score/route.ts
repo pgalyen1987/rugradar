@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cleanAddress } from "@/lib/validate";
 import { fetchSecurity } from "@/lib/security";
+import { fetchOnchain } from "@/lib/onchain";
 import { scoreToken } from "@/lib/score";
 
 export const runtime = "nodejs";
@@ -11,7 +12,10 @@ export const runtime = "nodejs";
 export async function GET(req: NextRequest) {
   try {
     const address = cleanAddress(req.nextUrl.searchParams.get("address") || "");
-    const result = scoreToken(await fetchSecurity(address));
+    // GoPlus plus our own onchain read, in parallel. The onchain read never throws; a fact it
+    // couldn't get is simply left out of the score.
+    const [security, onchain] = await Promise.all([fetchSecurity(address), fetchOnchain(address)]);
+    const result = scoreToken({ ...security, ...onchain });
     return NextResponse.json(result, { headers: { "access-control-allow-origin": "*" } });
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "bad request" },

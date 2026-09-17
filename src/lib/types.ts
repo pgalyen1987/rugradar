@@ -16,9 +16,16 @@ export interface TokenSecurity {
   sellTax?: number;             // 0..1
   holderCount?: number;
   lpHolderCount?: number;
-  lpLocked?: boolean;           // any LP locked/burned
+  lpLocked?: boolean;           // ≥90% of LP tokens locked/burned; undefined when there is no LP data
+  lpLockedShare?: number;       // 0..1 of LP tokens locked/burned
   transferPausable?: boolean;
   isInDex?: boolean;
+
+  // --- read onchain by RugRadar itself (see onchain.ts) ---
+  phantomBalance?: boolean;     // wallets that never held it report a balance
+  upgradeable?: boolean;        // proxy whose code can be swapped
+  upgradeController?: `0x${string}`;
+  upgradeControllerIsWallet?: boolean; // a single key, not a multisig/timelock contract
 }
 
 export type RiskBand = "safe" | "caution" | "high-risk" | "critical";

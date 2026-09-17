@@ -1,0 +1,61 @@
+{
+ "_source": "GoPlus token_security, chain 1, AI Chain Coin (AICC) 0x66a3c2fa3e467aa586e90912f977e648589cabaf, fetched 2026-09-17. A fake-airdrop token: see test/score.test.ts.",
+ "record": {
+  "buy_tax": "",
+  "cannot_buy": "0",
+  "creator_address": "0xef5113f831b28386d8a90fa8502e5ec4d56a4ab8",
+  "creator_balance": "17500",
+  "creator_percent": "0.014303",
+  "dex": [
+   {
+    "liquidity_type": "UniV2",
+    "name": "UniswapV2",
+    "liquidity": "14498.04291384",
+    "pair": "0x8d1247bfb4183d9041c81b6b806a38d1b99dfc90"
+   }
+  ],
+  "holder_count": "455",
+  "honeypot_with_same_creator": "0",
+  "is_in_dex": "1",
+  "is_open_source": "0",
+  "lp_holder_count": "3",
+  "lp_holders": [
+   {
+    "address": "0x93e7c28ae8f51834b76ae460c7627e111491d1f0",
+    "tag": "",
+    "value": null,
+    "is_contract": 0,
+    "balance": "0.004545454401297687",
+    "percent": "0.760210605710775402",
+    "NFT_list": null,
+    "is_locked": 0
+   },
+   {
+    "address": "0x7092ad98119bf015d3602acf46777d4344ec3bdd",
+    "tag": "",
+    "value": null,
+    "is_contract": 0,
+    "balance": "0.001433749739174749",
+    "percent": "0.239789394289057350",
+    "NFT_list": null,
+    "is_locked": 0
+   },
+   {
+    "address": "0x0000000000000000000000000000000000000000",
+    "tag": "Null Address",
+    "value": null,
+    "is_contract": 0,
+    "balance": "0.000000000000001",
+    "percent": "0.000000000000167246",
+    "NFT_list": null,
+    "is_locked": 1
+   }
+  ],
+  "lp_total_supply": "0.005979204140473436",
+  "owner_address": "",
+  "sell_tax": "",
+  "token_name": "AI Chain Coin",
+  "token_symbol": "AICC",
+  "total_supply": "1223540"
+ }
+}
