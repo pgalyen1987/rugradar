@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import MiniAppReady from "@/components/MiniAppReady";
 
+import { Analytics } from "@/components/Analytics";
 export const metadata: Metadata = {
   title: "RugRadar",
   description: "Scan any Base coin for rugs before you buy.",
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <Analytics />
         <MiniAppReady />
         <main>
           <div className="top">
