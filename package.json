@@ -2,7 +2,7 @@
   "name": "rugradar",
   "version": "0.1.0",
   "private": true,
-  "description": "Keycast \u2014 hold a creator's Zora coin, unlock their content. A Farcaster/Base mini-app.",
+  "description": "Keycast — hold a creator's Zora coin, unlock their content. A Farcaster/Base mini-app.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -25,6 +25,7 @@
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "railway": "^3.11.0",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"
   }
