@@ -54,12 +54,12 @@ describe("scoreToken: onchain facts", () => {
   });
   it("upgrades held by a contract (multisig/timelock) are a milder flag", () => {
     const r = scoreToken({ ...base, upgradeable: true, upgradeControllerIsWallet: false });
-    expect(r.flags).toEqual(["Upgradeable — the contract's code can be replaced"]);
+    expect(r.flags).toEqual(["Upgradeable: the contract's code can be replaced"]);
     expect(r.positives).toContain("Owner renounced");
   });
   it("the onchain read overrides GoPlus's proxy flag; the flag only fills in when the read failed", () => {
     expect(scoreToken({ ...base, isProxy: true, upgradeable: false }).flags).toHaveLength(0);
-    expect(scoreToken({ ...base, isProxy: true }).flags).toContain("Upgradeable — the contract's code can be replaced");
+    expect(scoreToken({ ...base, isProxy: true }).flags).toContain("Upgradeable: the contract's code can be replaced");
   });
 });
 

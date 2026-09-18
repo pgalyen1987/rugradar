@@ -19,7 +19,7 @@ export async function GET() {
       splashImageUrl: `${app}/splash.png`,
       splashBackgroundColor: "#0c0e12",
       subtitle: "Scan Base coins for rugs",
-      description: "Paste any Base token and get a 0–100 safety score with the red flags — honeypot, taxes, owner powers, liquidity — read live onchain, right where you buy.",
+      description: "Paste any Base token and get a 0–100 safety score with the red flags (honeypot, taxes, owner powers, liquidity), read live onchain right where you buy.",
       tagline: "Scan before you ape",
       primaryCategory: "utility",
       tags: ["safety", "security", "rug", "base", "coin"],

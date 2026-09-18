@@ -7,7 +7,7 @@ const BAND = {
   safe: { label: "Looks safe", color: "#39d98a" },
   caution: { label: "Caution", color: "#f5c451" },
   "high-risk": { label: "High risk", color: "#ff8c42" },
-  critical: { label: "Critical — do not buy", color: "#ff6b6b" },
+  critical: { label: "Critical: do not buy", color: "#ff6b6b" },
 } as const;
 
 export default function ScoreCoin() {
@@ -33,7 +33,7 @@ export default function ScoreCoin() {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     try {
       await sdk.actions.composeCast({
-        text: `${tag} safety score: ${res.score}/100 — ${b.label}. Checked with RugRadar 🛡️`,
+        text: `${tag} safety score: ${res.score}/100 (${b.label}). Checked with RugRadar`,
         embeds: [`${origin}/?a=${res.address}`],
       });
     } catch (e) { setErr((e as Error).message); }
@@ -60,13 +60,13 @@ export default function ScoreCoin() {
             {res.name ? `${res.name} ` : ""}{res.symbol ? `($${res.symbol})` : ""}
           </p>
           {res.flags.length > 0 && (
-            <ul className="flags">{res.flags.map((f) => <li key={f}>⚠️ {f}</li>)}</ul>
+            <ul className="flags">{res.flags.map((f) => <li key={f}>{f}</li>)}</ul>
           )}
           {res.positives.length > 0 && (
-            <ul className="positives">{res.positives.map((p) => <li key={p}>✓ {p}</li>)}</ul>
+            <ul className="positives">{res.positives.map((p) => <li key={p}>{p}</li>)}</ul>
           )}
           <button className="ghost" onClick={share}>Share this check</button>
-          <p className="muted small">Not financial advice — a risk signal, not a guarantee.</p>
+          <p className="muted small">Not financial advice. It's a risk signal, not a guarantee.</p>
         </div>
       )}
     </div>

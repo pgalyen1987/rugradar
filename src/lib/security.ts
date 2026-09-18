@@ -20,7 +20,7 @@ export async function fetchSecurity(address: `0x${string}`): Promise<TokenSecuri
   if (!r.ok) throw new Error(`Security provider error (${r.status}).`);
   const j = await r.json();
   const rec = j?.result?.[address.toLowerCase()];
-  if (!rec) throw new Error("No data for this token on Base — is it a Base ERC-20?");
+  if (!rec) throw new Error("No data for this token on Base. Is it a Base ERC-20?");
   return parseSecurity(address, rec);
 }
 

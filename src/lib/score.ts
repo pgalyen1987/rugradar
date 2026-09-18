@@ -26,8 +26,8 @@ const admitsControl = (s: TokenSecurity) => s.ownerRenounced === false && s.isOp
 const WALLET_UPGRADE = "One wallet can replace the contract's code at any time";
 
 const RULES: Rule[] = [
-  { when: (s) => s.phantomBalance, penalty: 100, flag: "Fake balances — wallets that never bought it show tokens (fake-airdrop scam)" },
-  { when: (s) => s.isHoneypot, penalty: 100, flag: "Honeypot — buyers can't sell" },
+  { when: (s) => s.phantomBalance, penalty: 100, flag: "Fake balances: wallets that never bought it show tokens (fake-airdrop scam)" },
+  { when: (s) => s.isHoneypot, penalty: 100, flag: "Honeypot: buyers can't sell" },
   { when: (s) => s.selfdestruct, penalty: 100, flag: "Contract can self-destruct" },
   { when: (s) => s.hiddenOwner, penalty: 60, flag: "Hidden owner" },
   { when: (s) => s.canTakeBackOwnership, penalty: 45, flag: "Owner can reclaim ownership" },
@@ -38,7 +38,7 @@ const RULES: Rule[] = [
   { when: (s) => (s.buyTax ?? 0) > 0.10, penalty: 20, flag: "High buy tax (>10%)" },
   { when: (s) => s.isOpenSource === false, penalty: 25, flag: "Source not verified" },
   // Onchain proxy slots are the truth when we read them; GoPlus's flag only fills in when we couldn't.
-  { when: (s) => (s.upgradeable ?? s.isProxy) && !s.upgradeControllerIsWallet, penalty: 15, flag: "Upgradeable — the contract's code can be replaced" },
+  { when: (s) => (s.upgradeable ?? s.isProxy) && !s.upgradeControllerIsWallet, penalty: 15, flag: "Upgradeable: the contract's code can be replaced" },
   { when: fakeRenounce, penalty: 35, flag: "Owner looks renounced, but a wallet still controls upgrades" },
   { when: (s) => walletUpgrade(s) && admitsControl(s), penalty: 5, flag: WALLET_UPGRADE },
   { when: (s) => s.ownerRenounced === false && !s.hiddenOwner, penalty: 15, flag: "Owner not renounced" },
