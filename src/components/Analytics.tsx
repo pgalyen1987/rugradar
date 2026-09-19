@@ -4,6 +4,8 @@ import Script from "next/script";
 // Production only, so local runs don't count as visitors. Visitors in the EEA, the UK and
 // Switzerland default to consent "denied": there GA sends cookieless pings and sets no cookies,
 // because this app has no consent banner. Ads storage is never granted.
+// The library loads once the page is idle (lazyOnload): it cost ~300 ms of main-thread time on
+// phones before the page settled. The queue above holds the config and page view until then.
 const GA_ID = "G-00TNDVMQNM";
 const CONSENT_REGIONS = ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV",
   "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "IS", "LI", "NO", "GB", "CH"];
@@ -17,7 +19,7 @@ export function Analytics() {
 gtag('consent','default',${JSON.stringify({ ...denied, analytics_storage: "denied", region: CONSENT_REGIONS })});
 gtag('consent','default',${JSON.stringify({ ...denied, analytics_storage: "granted" })});
 gtag('js',new Date());gtag('config','${GA_ID}');`}</Script>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
     </>
   );
 }

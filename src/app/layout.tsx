@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>
           <div className="top">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <div className="brand"><img className="logo" src="/icon.png" alt="RugRadar logo" /> RugRadar</div>
+            <div className="brand"><img className="logo" src="/logo-64.png" alt="" width={30} height={30} /> RugRadar</div>
             <a className="verified" href="https://farcaster.xyz/rebelstudios" target="_blank" rel="noopener noreferrer">@rebelstudios</a>
           </div>
           {children}
